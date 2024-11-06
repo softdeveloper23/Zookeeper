@@ -3,9 +3,48 @@ package zookeeper;
 import java.util.Scanner;
 
 public class Main {
+    private static final String[] ANIMALS = {
+            "Camel", "Lion", "Deer", "Goose", "Bat", "Rabbit"
+    };
+    private static final String[] ANIMAL_DESCRIPTIONS = {
+            camelDescription(),
+            lionDescription(),
+            deerDescription(),
+            gooseDescription(),
+            batDescription(),
+            rabbitDescription()
+    };
+
     public static void main(String[] args) {
-        String camel = """
-            Switching on the camera in the camel habitat...
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                System.out.print("Please enter the number of the habitat you would like to view (or 'exit' to quit): ");
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("exit")) {
+                    System.out.println("See you later!");
+                    return;
+                }
+
+                int index;
+                try {
+                    index = Integer.parseInt(input);
+                    if (index < 0 || index >= ANIMALS.length) {
+                        System.out.println("Invalid habitat number. Please try again.");
+                        continue;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a number or 'exit'.");
+                    continue;
+                }
+
+                System.out.println("Switching on the camera in the " + ANIMALS[index].toLowerCase() + " habitat...");
+                System.out.println(ANIMAL_DESCRIPTIONS[index]);
+            }
+        }
+    }
+
+    private static String camelDescription() {
+        return """
              ___.-''''-.
             /___  @    |
             ',,,,.     |         _.'''''''._
@@ -24,9 +63,11 @@ public class Main {
                        ;,,      !,!   !,!     ;,;
                        /_I      L_I   L_I     /_I
             Look at that! Our little camel is sunbathing!""";
+    }
 
-        String lion = """
-            Switching on the camera in the lion habitat...
+    // Add similar methods for the other animals
+    private static String lionDescription() {
+        return """
                                                            ,w.
                                                          ,YWMMw  ,M  ,
                                     _.---.._   __..---._.'MMMMMw,wMWmW,
@@ -42,9 +83,10 @@ public class Main {
                      /  Y,              `,  `-,=,_{   ;      MMMP`""-,  `-._.-,
                     (--, )                `,_ / `) \\/"")      ^"      `-, -;"\\:
             The lion is roaring!""";
+    }
 
-        String deer = """
-            Switching on the camera in the deer habitat...
+    private static String deerDescription() {
+        return """
                /|       |\\
             `__\\       //__'
                ||      ||
@@ -70,9 +112,10 @@ public class Main {
                        |_||_|           |_|   |_|
                       /_//_/           /_/   /_/
             Our 'Bambi' looks hungry. Let's go to feed it!""";
+    }
 
-        String goose = """
-            Switching on the camera in the goose habitat...
+    private static String gooseDescription() {
+        return """
             
                                                 _
                                             ,-"" "".
@@ -86,9 +129,10 @@ public class Main {
                (__        (_<_<          ;
                 `------------------------------------------
             The goose is staring intently at you... Maybe it's time to change the channel?""";
+    }
 
-        String bat = """
-            Switching on the camera in the bat habitat...
+    private static String batDescription() {
+        return """
             _________________               _________________
              ~-.              \\  |\\___/|  /              .-~
                  ~-.           \\ / o o \\ /           .-~
@@ -101,9 +145,10 @@ public class Main {
                             ~-. /  \\_/  \\ .-~
                                V         V
             This bat looks like it's doing fine.""";
+    }
 
-        String rabbit = """
-            Switching on the camera in the rabbit habitat...
+    private static String rabbitDescription() {
+        return """
                      ,
                     /|      __
                    / |   ,-~ /
@@ -124,13 +169,5 @@ public class Main {
              ]\\      _\\    /"\\
             (" ~----( ~   Y.  )
             It looks like we will soon have more rabbits!""";
-
-        String[] animals = {camel, lion, deer, goose, bat, rabbit};
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter the number of the habitat you would like to view: ");
-        int input = scanner.nextInt();
-        System.out.println(animals[input]);
-        System.out.println("You've reached the end of the program. To check another habitat, please restart the watcher.");
-
     }
 }
